@@ -30,9 +30,6 @@ def generate_traffic_detection(ids, locations, vehicles):
 
 detections = []
 for _ in range(5):
-    l_p = ''.join(random.choices(list("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), k=2)) + \
-          ''.join(random.choices(list("0123456789"), k=3)) + \
-          ''.join(random.choices(list("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), k=2))
     td = generate_traffic_detection(ids, locations, vehicles)
     detections.append(json.dumps(td.__dict__))
 
