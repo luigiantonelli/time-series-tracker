@@ -4,7 +4,6 @@ import time
 
 ids = [1,2,3,4,5]
 locations = ['Bari', 'Firenze', 'Milano', 'Napoli', 'Palermo', 'Roma', 'Torino']
-speeds = [s for s in range(0, 300)]
 vehicles = ['Car', 'Truck', 'Bus', 'Motorbike']
 
 class TrafficDetection:
