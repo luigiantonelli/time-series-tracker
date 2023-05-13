@@ -1,6 +1,7 @@
 import json
 import random
 import time
+import requests
 
 ids = [1,2,3,4,5]
 weather = ['Sunny', 'Cloudy', 'Rain', 'Storm', 'Hail', 'Snow']
@@ -12,7 +13,7 @@ class WeatherStationDetection:
         self.location = location
         self.weather = weather
         self.temperature = temperature
-        self.millimeters = millimeters
+        self.value = millimeters
         self.timestamp = timestamp
 
 def generate_weather_station_detection(ids, locations, weather):
@@ -40,10 +41,3 @@ def generate_weather_station_detection(ids, locations, weather):
                                    t,
                                    time.strftime("%H:%M:%S", time.localtime())
                                    )
-
-detections = []
-for _ in range(5):
-    wsd = generate_weather_station_detection(ids, locations, weather)
-    detections.append(json.dumps(wsd.__dict__))
-
-print(detections)
