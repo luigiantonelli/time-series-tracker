@@ -20,8 +20,9 @@ docker run -d -p 8080:8080 --name=telegraf \
       --net=influxdb \
       -v /home/lory271/telegraf.conf:/etc/telegraf/telegraf.conf:ro \
       telegraf
+```
 	  
-	  
+```	  
 docker run -d -p 8086:8086 --name=influxdb \
 	--net=influxdb \
 	influxdb
