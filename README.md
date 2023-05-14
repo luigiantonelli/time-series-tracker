@@ -1,13 +1,19 @@
 # time-series-tracker
-A simple project that collect, aggregate and save detections using influxDb and telegraf
+A simple project that collect, aggregate and save detections using influxDB and Telegraf
 
-**input**
-https://github.com/influxdata/telegraf/blob/release-1.26/plugins/inputs/http_listener_v2/README.md
+# Plugins
 
-**output**
-https://github.com/influxdata/telegraf/blob/release-1.26/plugins/outputs/influxdb_v2/README.md
+## input
+* https://github.com/influxdata/telegraf/blob/release-1.26/plugins/inputs/http_listener_v2/README.md
 
-**commands**
+## output
+* https://github.com/influxdata/telegraf/blob/release-1.26/plugins/outputs/influxdb_v2/README.md
+
+## commands
+
+```
+docker network create influxdb
+```
 
 ```
 docker run -d -p 8080:8080 --name=telegraf \
@@ -16,5 +22,7 @@ docker run -d -p 8080:8080 --name=telegraf \
       telegraf
 	  
 	  
-docker run -d --name=influxdb --net=influxdb -p 8086:8086 influxdb
+docker run -d -p 8086:8086 --name=influxdb \
+	--net=influxdb \
+	influxdb
 ```
