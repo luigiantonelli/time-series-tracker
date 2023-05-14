@@ -1,4 +1,4 @@
-# time-series-tracker
+# Time-series-tracker
 A simple project that collect, aggregate and save detections using influxDB and Telegraf
 
 # Plugins
@@ -9,7 +9,7 @@ A simple project that collect, aggregate and save detections using influxDB and 
 ## output
 * https://github.com/influxdata/telegraf/blob/release-1.26/plugins/outputs/influxdb_v2/README.md
 
-## commands
+# Commands
 
 ```
 docker network create influxdb
