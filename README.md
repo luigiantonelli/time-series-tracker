@@ -1,5 +1,5 @@
 # time-series-tracker
-A simple project that collect, aggregate and save detections using influxDb and telegraf
+A simple project that collects, aggregates and saves detections using InfluxDb and Telegraf
 
 **input**
 https://github.com/influxdata/telegraf/blob/release-1.26/plugins/inputs/http_listener_v2/README.md
