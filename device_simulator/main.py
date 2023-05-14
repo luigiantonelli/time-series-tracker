@@ -2,8 +2,8 @@ import json
 
 import requests
 
-import Detections
-from Detections.Weather import generate_weather_station_detection
+import detections
+from detections.Weather import generate_weather_station_detection
 
 
 # This is a sample Python script.
