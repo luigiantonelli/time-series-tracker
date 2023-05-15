@@ -1,9 +1,12 @@
 import json
+import time
+from datetime import datetime
 
 import requests
 
-import detections
+from detections.MyClass import MyClass
 from detections.Weather import generate_weather_station_detection
+from detections.Weather import Weather
 
 
 # This is a sample Python script.
@@ -25,15 +28,18 @@ if __name__ == '__main__':
     locations = ['Bari', 'Firenze', 'Milano', 'Napoli', 'Palermo', 'Roma', 'Torino']
     detections = []
     for _ in range(5):
-        wsd = generate_weather_station_detection(ids, locations, weather)
-        detections.append(json.dumps(wsd.__dict__))
+        wsd = generate_weather_station_detection(ids, locations, weather).__dict__
+        detections.append(wsd)
+
+    headers = {"Content-Type": "application/json"}
 
     url = "http://localhost:8080/telegraf"
 
     # Send the data via HTTP POST request
-    response = requests.post(url, data=detections[0])
+    response = requests.post(url, headers=headers, json=detections)
 
     # Check the response status code
-    print(response)
+    print(f"body: {detections}")
+    print(f"response: {response}")
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

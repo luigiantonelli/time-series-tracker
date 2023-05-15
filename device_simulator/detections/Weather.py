@@ -3,18 +3,19 @@ import random
 import time
 import requests
 
-ids = [1,2,3,4,5]
+ids = [1, 2, 3, 4, 5]
 weather = ['Sunny', 'Cloudy', 'Rain', 'Storm', 'Hail', 'Snow']
 locations = ['Bari', 'Firenze', 'Milano', 'Napoli', 'Palermo', 'Roma', 'Torino']
 
-class WeatherStationDetection:
+class Weather:
     def __init__(self, id, location, weather, millimeters, temperature, timestamp):
         self.id = id
         self.location = location
         self.weather = weather
         self.temperature = temperature
-        self.value = millimeters
+        self.millimeters = millimeters
         self.timestamp = timestamp
+
 
 def generate_weather_station_detection(ids, locations, weather):
     l = random.choices(locations)[0]
@@ -34,10 +35,10 @@ def generate_weather_station_detection(ids, locations, weather):
         t = round(random.choice(range(-15, 0)) + random.random(), 3)
     else:
         t = round(random.choice(range(-15, 40)) + random.random(), 3)
-    return WeatherStationDetection(random.choices(ids)[0],
-                                   l,
-                                   w,
-                                   mm,
-                                   t,
-                                   time.strftime("%H:%M:%S", time.localtime())
-                                   )
+    return Weather(random.choices(ids)[0],
+                   l,
+                   w,
+                   mm,
+                   t,
+                   time.time_ns()
+                   )

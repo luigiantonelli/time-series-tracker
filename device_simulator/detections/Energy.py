@@ -34,7 +34,7 @@ def generate_energy_consumption_detection(ids, locations, power_stations, renewa
                             consumption,
                             co2_emissions,
                             is_green,
-                            time.strftime("%H:%M:%S", time.localtime())
+                            time.strftime("%a %b %d %H:%M:%S MST %Y", time.localtime())
                             )
 
 detections = []

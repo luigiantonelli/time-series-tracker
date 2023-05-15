@@ -24,7 +24,7 @@ def generate_traffic_detection(ids, locations, vehicles):
                             l_p,
                             random.choices(vehicles)[0],
                             random.choice(range(0, 300)),
-                            time.strftime("%H:%M:%S", time.localtime())
+                            time.strftime("%a %b %d %H:%M:%S MST %Y", time.localtime())
                             )
 
 detections = []
