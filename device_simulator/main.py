@@ -6,7 +6,7 @@ import requests
 
 from detections.MyClass import MyClass
 from detections.Weather import generate_weather_station_detection
-from detections.Weather import Weather
+from detections.Weather import WeatherDetection
 
 
 # This is a sample Python script.
@@ -28,7 +28,7 @@ if __name__ == '__main__':
     locations = ['Bari', 'Firenze', 'Milano', 'Napoli', 'Palermo', 'Roma', 'Torino']
     detections = []
     for _ in range(5):
-        wsd = generate_weather_station_detection(ids, locations, weather).__dict__
+        wsd = generate_weather_station_detection(locations, weather).__dict__
         detections.append(wsd)
 
     headers = {"Content-Type": "application/json"}
