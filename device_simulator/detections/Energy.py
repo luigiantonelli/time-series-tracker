@@ -9,8 +9,8 @@ renewable = set(['Solar panel', 'Wind turbine', 'Hydroelectric'])
 fossil = set(['Gas', 'Carbon', 'Petrol'])
 
 class EnergyConsumptionDetection:
-    def __init__(self, id, location, power_stations, consumption, co2_emissions, is_green, timestamp):
-        self.id = id
+    def __init__(self, location, power_stations, consumption, co2_emissions, is_green, timestamp):
+        #self.id = id
         self.location = location
         self.consumption = consumption
         self.power_station = power_stations
@@ -18,7 +18,7 @@ class EnergyConsumptionDetection:
         self.is_green = is_green
         self.timestamp = timestamp
 
-def generate_energy_consumption_detection(ids, locations, power_stations, renewable, fossil):
+def generate_energy_consumption_detection(locations, power_stations, renewable, fossil):
     consumption = round(random.choice(range(0, 500)) + random.random(), 3)
     ps = random.choices(power_stations)[0]
     if ps in renewable:
@@ -28,18 +28,18 @@ def generate_energy_consumption_detection(ids, locations, power_stations, renewa
         co2_emissions = round(consumption * random.choice(range(3, 5)) * random.random(), 3)
         is_green = False
         
-    return EnergyConsumptionDetection(random.choices(ids)[0],
+    return EnergyConsumptionDetection(
                             random.choices(locations)[0],
                             ps,
                             consumption,
                             co2_emissions,
                             is_green,
-                            time.strftime("%a %b %d %H:%M:%S MST %Y", time.localtime())
-                            )
-
+                            time.time_ns())
+"""
 detections = []
 for _ in range(5):
-    ecd = generate_energy_consumption_detection(ids, locations, power_stations, renewable, fossil)
+    ecd = generate_energy_consumption_detection(locations, power_stations, renewable, fossil)
     detections.append(json.dumps(ecd.__dict__))
 
 print(detections)
+"""

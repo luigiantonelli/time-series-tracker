@@ -3,11 +3,13 @@ import time
 from datetime import datetime
 
 import requests
-
+"""
 from detections.MyClass import MyClass
 from detections.Weather import generate_weather_station_detection
-from detections.Weather import WeatherDetection
-
+from detections.Weather import Weather
+"""
+from detections.Energy import generate_energy_consumption_detection
+from detections.Energy import EnergyConsumptionDetection
 
 # This is a sample Python script.
 
@@ -23,15 +25,36 @@ def print_hi(name):
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     print_hi('PyCharm')
+    """
     ids = [1, 2, 3, 4, 5]
     weather = ['Sunny', 'Cloudy', 'Rain', 'Storm', 'Hail', 'Snow']
     locations = ['Bari', 'Firenze', 'Milano', 'Napoli', 'Palermo', 'Roma', 'Torino']
+    """
+    power_stations = ['Solar panel', 'Wind turbine', 'Hydroelectric', 'Gas', 'Carbon', 'Petrol']
+    locations = ['Bari', 'Firenze', 'Milano', 'Napoli', 'Palermo', 'Roma', 'Torino']
+    renewable = set(['Solar panel', 'Wind turbine', 'Hydroelectric'])
+    fossil = set(['Gas', 'Carbon', 'Petrol'])
     detections = []
+    """
     for _ in range(5):
-        wsd = generate_weather_station_detection(locations, weather).__dict__
-        detections.append(wsd)
-
+        ecd = generate_energy_consumption_detection(locations, power_stations, renewable, fossil).__dict__
+        detections.append(ecd)
+    """
     headers = {"Content-Type": "application/json"}
+    
+    detections.append(
+        generate_energy_consumption_detection(['Roma'], ['Solar panel'], renewable, fossil).__dict__
+    )
+    detections.append(
+        generate_energy_consumption_detection(['Roma'], ['Gas'], renewable, fossil).__dict__
+    )
+    detections.append(
+        generate_energy_consumption_detection(['Roma'], ['Solar panel'], renewable, fossil).__dict__
+    )
+
+    print(detections)
+
+
 
     url = "http://localhost:8080/telegraf"
 
