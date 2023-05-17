@@ -30,6 +30,7 @@ class WeatherDetectionInstance(DetectionInstance):
         self.location = location
         self.temp = temp
         self.perc_temp = perc_temp
+        self.temp_diff = round(temp - perc_temp, 2)
         self.pressure = pressure
         self.status = status
         self.timestamp = time.time_ns()
