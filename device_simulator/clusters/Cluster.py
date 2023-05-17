@@ -1,9 +1,45 @@
+import asyncio
+import logging
+
+import requests
+
+import config
+
+
 class Cluster:
-    def start(self):
-        pass
+    def __init__(self, class_name, id, loop):
+        self.id = id
+        self.loop = loop
+        self.type = type
+        self.log = logging.getLogger(class_name)
+        self.log.setLevel(config.LOG_LEVEL)
+        self.devices = []
+
+    async def start(self):
+        self.log.info(f"start cluster")
+        tasks = []
+        for dev in self.devices:
+            self.log.debug(f"cluster start device {dev.id}")
+            tasks.append(self.loop.create_task(dev.start()))
+            tasks.append(self.loop.create_task(self.send()))
+        await asyncio.wait(tasks)
+
+    async def send(self):
+        self.log.info(f"sending detections...")
+        while True:
+            for dev in self.devices:
+                self.send_to_telegraf(dev.get_all_detections())
+            await asyncio.sleep(config.FETCH_SLEEP_TIME)
+
+    def send_to_telegraf(self, detections):
+        self.log.info(f"{len(detections)} detections sent to telegraf")
+        headers = {"Content-Type": "application/json"}
+        url = "http://localhost:8080/telegraf"
+        # Send the data via HTTP POST request
+        response = requests.post(url, headers=headers, json=detections)
+        self.log.debug(response.status_code)
 
     def stop(self):
-        pass
-
-    async def flush(self):
-        pass
+        self.log.info(f"stop cluster")
+        for dev in self.devices:
+            dev.stop()
