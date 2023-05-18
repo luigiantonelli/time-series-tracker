@@ -7,8 +7,8 @@ from detections.Detection import Detection
 
 
 class Detector:
-    def __init__(self, class_name, id):
-        self.id = id
+    def __init__(self, class_name, d_id):
+        self.d_id = d_id
         self.log = logging.getLogger(class_name)
         self.log.setLevel(config.LOG_LEVEL)
         self.enable = False
@@ -20,7 +20,7 @@ class Detector:
 
     async def run(self):
         while self.enable:
-            self.log.info(f"detector {self.id} generate detection, queue size: {self.detections.qsize()}")
+            self.log.info(f"detector {self.d_id} generate detection, queue size: {self.detections.qsize()}")
             d = self.get_detection()
             self.detections.put(d)
             await asyncio.sleep(config.SLEEP_TIME)
@@ -29,7 +29,7 @@ class Detector:
         pass
 
     def stop(self):
-        self.log.info(f"stop weather detector with id {self.id}")
+        self.log.info(f"stop weather detector with id {self.d_id}")
         self.enable = False
 
     def get_all_detections(self):

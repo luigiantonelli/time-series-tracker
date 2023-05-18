@@ -6,7 +6,8 @@ OPEN_WEATHER_API_FORMAT = "https://api.openweathermap.org/data/2.5/weather?lat={
 # LOG
 LOG_LEVEL = logging.DEBUG
 # SLEEP AMONG DETECTIONS
-SLEEP_TIME = 5
-FETCH_SLEEP_TIME = 20
+SLEEP_TIME = 1
+FETCH_SLEEP_TIME = 60
 # PATHS
 ITALY_CITIES = "resources/italy.csv"
+ITALY_AUTOVELOX = "resources/autovelox_map.json"

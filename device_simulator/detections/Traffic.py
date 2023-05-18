@@ -1,36 +1,40 @@
-import json
 import random
-import time
 
-ids = [1,2,3,4,5]
-locations = ['Bari', 'Firenze', 'Milano', 'Napoli', 'Palermo', 'Roma', 'Torino']
-vehicles = ['Car', 'Truck', 'Bus', 'Motorbike']
+from detections.Detection import Detection, DetectionInstance
 
-class TrafficDetection:
-    def __init__(self, id, location, license_plate, vehicle, speed, timestamp):
-        self.id = id
-        self.location = location
-        self.license_plate = license_plate
-        self.vehicle = vehicle
-        self.speed = speed
-        self.timestamp = timestamp
 
-def generate_traffic_detection(ids, locations, vehicles):
-    l_p = ''.join(random.choices(list("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), k=2)) + \
-          ''.join(random.choices(list("0123456789"), k=3)) + \
-          ''.join(random.choices(list("ABCDEFGHIJKLMNOPQRSTUVWXYZ"), k=2))
-    return TrafficDetection(random.choices(ids)[0],
-                            random.choices(locations)[0],
-                            l_p,
-                            random.choices(vehicles)[0],
-                            random.choice(range(0, 300)),
-                            time.strftime("%a %b %d %H:%M:%S MST %Y", time.localtime())
-                            )
+class TrafficDetection(Detection):
+    def __init__(self, city, region, lat, lng):
+        super().__init__(__name__)
+        self.city = city
+        self.region = region
+        self.lat = lat
+        self.lng = lng
 
-detections = []
-for _ in range(5):
-    td = generate_traffic_detection(ids, locations, vehicles)
-    detections.append(json.dumps(td.__dict__))
+    def get(self):
+        detection = TrafficDetectionInstance(self.city, self.region, self.lat, self.lng)
+        self.log.debug(detection.__dict__)
+        return detection.__dict__
 
-print(detections)
 
+def generate_italian_plate():
+    chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    nums = '0123456789'
+    letters = ''
+    numbers = ''
+    for c in range(4):
+        letters += random.choice(chars)
+    for c in range(3):
+        numbers += random.choice(nums)
+    return f"{letters[:2]} {numbers} {letters[-2:]}"
+
+
+class TrafficDetectionInstance(DetectionInstance):
+    def __init__(self, city, region, lat, lng):
+        super().__init__()
+        self.city = city
+        self.region = region
+        self.lat = lat
+        self.lng = lng
+        self.license_plate = generate_italian_plate()
+        self.speed = float("{:.2f}".format(random.random() * 200))

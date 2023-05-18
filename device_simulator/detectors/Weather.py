@@ -7,8 +7,8 @@ from detectors.Detector import Detector
 
 
 class WeatherDetector(Detector):
-    def __init__(self, id, city, lat, lng, country):
-        super().__init__(__name__, id)
+    def __init__(self, d_id, city, lat, lng, country):
+        super().__init__(__name__, d_id)
         self.city = city
         self.lat = lat
         self.lng = lng
@@ -18,7 +18,7 @@ class WeatherDetector(Detector):
         self.mgr = owm.weather_manager()
 
     async def start(self):
-        self.log.info(f"start detector with id {self.id} locate in {self.city}")
+        self.log.info(f"start detector with id {self.d_id} locate in {self.city}")
         await super().start()
 
     def get_detection(self) -> Detection:
