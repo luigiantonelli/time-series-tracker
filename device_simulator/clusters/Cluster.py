@@ -1,14 +1,16 @@
 import asyncio
 import logging
 
+import requests
+
 import config
 
 
 class Cluster:
-    def __init__(self, class_name, c_id, loop):
+    def __init__(self, class_name, c_id, loop, port=8080):
         self.c_id = c_id
         self.loop = loop
-        self.type = type
+        self.port = port
         self.log = logging.getLogger(class_name)
         self.log.setLevel(config.LOG_LEVEL)
         self.devices = []
@@ -31,15 +33,15 @@ class Cluster:
 
     def send_to_telegraf(self, detections):
         self.log.info(f"{len(detections)} detections sent to telegraf")
-        # headers = {"Content-Type": "application/json"}
-        # url = "http://localhost:8080/telegraf"
-        # # Send the data via HTTP POST request
-        # try:
-        #     response = requests.post(url, headers=headers, json=detections)
-        # except requests.exceptions.RequestException as e:
-        #     self.log.debug(f"request raise an exception {e}")
-        #     return
-        # self.log.debug(response.status_code)
+        headers = {"Content-Type": "application/json"}
+        url = f"http://localhost:{self.port}/telegraf"
+        # Send the data via HTTP POST request
+        try:
+            response = requests.post(url, headers=headers, json=detections)
+        except requests.exceptions.RequestException as e:
+            self.log.debug(f"request raise an exception {e}")
+            return
+        self.log.debug(response.status_code)
 
     def stop(self):
         self.log.info(f"stop cluster")

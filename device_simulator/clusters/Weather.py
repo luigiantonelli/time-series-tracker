@@ -7,7 +7,7 @@ from detectors.Weather import WeatherDetector
 
 class WeatherCluster(Cluster):
     def __init__(self, c_id, size, loop):
-        super().__init__(__name__, c_id, loop)
+        super().__init__(__name__, c_id, loop, 8080)
         df = pandas.read_csv(config.ITALY_CITIES)
         cities = df.sample(n=size).values.tolist()
 
