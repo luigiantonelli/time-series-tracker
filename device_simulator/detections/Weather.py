@@ -24,5 +24,6 @@ class WeatherDetectionInstance(DetectionInstance):
         self.location = location
         self.temp = temp
         self.perc_temp = perc_temp
+        self.temp_diff = float("{:.2f}".format(temp - perc_temp))
         self.pressure = pressure
         self.status = status
