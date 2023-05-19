@@ -1,9 +1,9 @@
 from pyowm import OWM
 
-import config
-from detections.Detection import Detection
-from detections.Weather import WeatherDetection
-from detectors.Detector import Detector
+from src import config
+from src.detections.Detection import Detection
+from src.detections.Weather import WeatherDetection
+from src.detectors.Detector import Detector
 
 
 class WeatherDetector(Detector):

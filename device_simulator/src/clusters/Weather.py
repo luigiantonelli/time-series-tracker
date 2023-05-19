@@ -1,8 +1,8 @@
 import pandas
 
-import config
-from clusters.Cluster import Cluster
-from detectors.Weather import WeatherDetector
+from src import config
+from src.clusters.Cluster import Cluster
+from src.detectors.Weather import WeatherDetector
 
 
 class WeatherCluster(Cluster):

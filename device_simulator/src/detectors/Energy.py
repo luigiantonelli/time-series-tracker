@@ -1,6 +1,6 @@
-from detections.Detection import Detection
-from detections.Energy import EnergyDetection
-from detectors.Detector import Detector
+from src.detections.Detection import Detection
+from src.detections.Energy import EnergyDetection
+from src.detectors.Detector import Detector
 
 
 class EnergyDetector(Detector):

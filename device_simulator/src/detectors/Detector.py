@@ -2,8 +2,8 @@ import asyncio
 import logging
 import queue
 
-import config
-from detections.Detection import Detection
+from src import config
+from src.detections.Detection import Detection
 
 
 class Detector:

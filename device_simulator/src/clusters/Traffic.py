@@ -1,8 +1,8 @@
 import pandas
 
-import config
-from clusters.Cluster import Cluster
-from detectors.Traffic import TrafficDetector
+from src import config
+from src.clusters.Cluster import Cluster
+from src.detectors.Traffic import TrafficDetector
 
 
 class TrafficCluster(Cluster):

@@ -3,7 +3,7 @@ import logging
 
 import requests
 
-import config
+from src import config
 
 
 class Cluster:

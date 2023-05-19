@@ -1,6 +1,6 @@
-from detections.Detection import Detection
-from detections.Traffic import TrafficDetection
-from detectors.Detector import Detector
+from src.detections.Detection import Detection
+from src.detections.Traffic import TrafficDetection
+from src.detectors.Detector import Detector
 
 
 class TrafficDetector(Detector):

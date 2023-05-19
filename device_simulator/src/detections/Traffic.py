@@ -1,6 +1,6 @@
 import random
 
-from detections.Detection import Detection, DetectionInstance
+from src.detections.Detection import Detection, DetectionInstance
 
 
 class TrafficDetection(Detection):

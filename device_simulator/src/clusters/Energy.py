@@ -1,8 +1,8 @@
 import pandas
 
-import config
-from clusters.Cluster import Cluster
-from detectors.Energy import EnergyDetector
+from src import config
+from src.clusters.Cluster import Cluster
+from src.detectors.Energy import EnergyDetector
 
 
 class EnergyCluster(Cluster):
