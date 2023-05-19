@@ -20,10 +20,12 @@ docker network create influxdb
 ```
 
 ```
-docker run -d -p 8080:8080 --name=telegraf \
-      --net=influxdb \
-      -v ${TELEGRAF.CONF_PATH}/telegraf.conf:/etc/telegraf/telegraf.conf:ro \
-      telegraf
+docker run -d \
+	-p 8080:8080 -p 8081:8081 -p 8082:8082 \
+	--name=telegraf \
+    --net=influxdb \
+    -v ${TELEGRAF.CONF_PATH}/telegraf.conf:/etc/telegraf/telegraf.conf:ro \
+    telegraf
 ```
 	  
 ```	  
