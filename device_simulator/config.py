@@ -11,3 +11,4 @@ FETCH_SLEEP_TIME = 60
 # PATHS
 ITALY_CITIES = "resources/italy.csv"
 ITALY_AUTOVELOX = "resources/autovelox_map.json"
+ITALY_ENERGY = "resources/electricity_Italy.csv"

@@ -1,45 +1,25 @@
-import json
 import random
-import time
 
-ids = [1,2,3,4,5]
-power_stations = ['Solar panel', 'Wind turbine', 'Hydroelectric', 'Gas', 'Carbon', 'Petrol']
-locations = ['Bari', 'Firenze', 'Milano', 'Napoli', 'Palermo', 'Roma', 'Torino']
-renewable = set(['Solar panel', 'Wind turbine', 'Hydroelectric'])
-fossil = set(['Gas', 'Carbon', 'Petrol'])
+from detections.Detection import Detection, DetectionInstance
 
-class EnergyConsumptionDetection:
-    def __init__(self, id, location, power_stations, consumption, co2_emissions, is_green, timestamp):
-        self.id = id
-        self.location = location
-        self.consumption = consumption
-        self.power_station = power_stations
-        self.co2_emissions = co2_emissions
-        self.is_green = is_green
-        self.timestamp = timestamp
 
-def generate_energy_consumption_detection(ids, locations, power_stations, renewable, fossil):
-    consumption = round(random.choice(range(0, 500)) + random.random(), 3)
-    ps = random.choices(power_stations)[0]
-    if ps in renewable:
-        co2_emissions = round(consumption * random.choice(range(1, 2)) * random.random(), 3)
-        is_green = True
-    elif ps in fossil:
-        co2_emissions = round(consumption * random.choice(range(3, 5)) * random.random(), 3)
-        is_green = False
-        
-    return EnergyConsumptionDetection(random.choices(ids)[0],
-                            random.choices(locations)[0],
-                            ps,
-                            consumption,
-                            co2_emissions,
-                            is_green,
-                            time.strftime("%a %b %d %H:%M:%S MST %Y", time.localtime())
-                            )
+class EnergyDetection(Detection):
+    def __init__(self, name, fuel_type, capacity):
+        super().__init__(__name__)
+        self.name = name
+        self.fuel_type = fuel_type
+        self.capacity = capacity
 
-detections = []
-for _ in range(5):
-    ecd = generate_energy_consumption_detection(ids, locations, power_stations, renewable, fossil)
-    detections.append(json.dumps(ecd.__dict__))
+    def get(self):
+        detection = EnergyDetectionInstance(self.name, self.fuel_type, self.capacity)
+        self.log.debug(detection.__dict__)
+        return detection.__dict__
 
-print(detections)
+
+class EnergyDetectionInstance(DetectionInstance):
+    def __init__(self, name, fuel_type, capacity):
+        super().__init__()
+        self.name = name
+        self.fuel_type = fuel_type
+        self.capacity = capacity
+        self.current_load = float("{:.2f}".format(random.random() * capacity))
