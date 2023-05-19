@@ -8,6 +8,10 @@ LOG_LEVEL = logging.DEBUG
 # SLEEP AMONG DETECTIONS
 SLEEP_TIME = 1
 FETCH_SLEEP_TIME = 60
+# TYPES
+WEATHER_TYPE = 'weather'
+TRAFFIC_TYPE = 'traffic'
+ENERGY_TYPE = 'energy'
 # PATHS
 ITALY_CITIES = "resources/italy.csv"
 ITALY_AUTOVELOX = "resources/autovelox_map.json"
