@@ -34,6 +34,14 @@ docker run -d -p 8086:8086 --name=influxdb \
 	influxdb
 ```
 
+```
+docker run -d \
+	--name=traffic_cluster \
+    --net=influxdb \
+    traffic_simulator
+```
+
+
 # Start
 
 1. `cp ${TELEGRAF.CONF_SOURCE_PATH} ${TELEGRAF.CONF_PATH}`
