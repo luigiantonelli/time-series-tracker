@@ -6,8 +6,8 @@ OPEN_WEATHER_API_FORMAT = "https://api.openweathermap.org/data/2.5/weather?lat={
 # LOG
 LOG_LEVEL = logging.INFO
 # SLEEP AMONG DETECTIONS
-SLEEP_TIME = 5
-FETCH_SLEEP_TIME = 30
+SLEEP_TIME = 5  # DEFAULT
+FETCH_SLEEP_TIME = 30  # DEFAULT
 # TYPES
 WEATHER_TYPE = 'weather'
 TRAFFIC_TYPE = 'traffic'

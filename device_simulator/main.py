@@ -17,9 +17,12 @@ if __name__ == '__main__':
                         help='choose the cluster size')
     parser.add_argument('-i', action='store', required=True, default=1, type=int, dest='id',
                         help='choose the cluster id')
+    parser.add_argument('-f', action='store', required=True, default=60, type=int, dest='send_time',
+                        help='choose the send time jitter')
     TYPE = parser.parse_args().type
     SIZE = parser.parse_args().size
     ID = parser.parse_args().id
+    config.FETCH_SLEEP_TIME = parser.parse_args().send_time
 
     logging.basicConfig(stream=sys.stdout, level=config.LOG_LEVEL)
     logger = logging.getLogger(__name__)
