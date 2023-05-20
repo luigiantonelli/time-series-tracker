@@ -77,4 +77,4 @@ docker run -d \
 
 1. `cp ${TELEGRAF.CONF_SOURCE_PATH} ${TELEGRAF.CONF_PATH}`
 
-2. Run influxDB and telegraf container
+2. Run all the containers from Docker Desktop
