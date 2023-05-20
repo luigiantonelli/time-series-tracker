@@ -9,7 +9,7 @@ class TrafficCluster(Cluster):
     def __init__(self, c_id, size, loop):
         super().__init__(__name__, c_id, loop, 8081)
         df = pandas.read_json(config.ITALY_AUTOVELOX)
-        velox = df.sample(n=size).values.tolist()
+        velox = df.sample(n=size, random_state=config.SEED).values.tolist()
 
         self.log.info(f"init traffic cluster with {size} devices")
         for i, v in enumerate(velox):

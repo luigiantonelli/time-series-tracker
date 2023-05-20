@@ -9,7 +9,7 @@ class WeatherCluster(Cluster):
     def __init__(self, c_id, size, loop):
         super().__init__(__name__, c_id, loop, 8080)
         df = pandas.read_csv(config.ITALY_CITIES)
-        cities = df.sample(n=size).values.tolist()
+        cities = df.sample(n=size, random_state=config.SEED).values.tolist()
 
         self.log.info(f"init weather cluster with {size} devices")
         for i, city in enumerate(cities):

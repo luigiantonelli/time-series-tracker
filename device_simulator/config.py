@@ -16,3 +16,5 @@ ENERGY_TYPE = 'energy'
 ITALY_CITIES = "resources/italy.csv"
 ITALY_AUTOVELOX = "resources/autovelox_map.json"
 ITALY_ENERGY = "resources/electricity_Italy.csv"
+# SEED
+SEED = 0

@@ -19,10 +19,13 @@ if __name__ == '__main__':
                         help='choose the cluster id')
     parser.add_argument('-f', action='store', required=True, default=60, type=int, dest='send_time',
                         help='choose the send time jitter')
+    parser.add_argument('--seed', action='store', required=True, default=0, type=int, dest='seed',
+                        help='choose seed to sample cluster')
     TYPE = parser.parse_args().type
     SIZE = parser.parse_args().size
     ID = parser.parse_args().id
     config.FETCH_SLEEP_TIME = parser.parse_args().send_time
+    config.SEED = parser.parse_args().seed
 
     logging.basicConfig(stream=sys.stdout, level=config.LOG_LEVEL)
     logger = logging.getLogger(__name__)
