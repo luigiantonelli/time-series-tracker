@@ -11,34 +11,65 @@ A simple project that collect, aggregate and save detections using influxDB and 
 
 # First Setup
 
+Copy telegraf.conf file in the shared volume
+
 ```
 cp ${TELEGRAF.CONF_SOURCE_PATH} ${TELEGRAF.CONF_PATH} 
 ```
 
+Create docker subnet for containers
+
 ```
 docker network create influxdb
 ```
+Build the detector simulator docker image
+
+```
+cd ${ROOT_PATH_DEVICE_SIMULATOR}
+docker build --tag detector_simulator .
+```
+
+Run all!
 
 ```
 docker run -d \
 	-p 8080:8080 -p 8081:8081 -p 8082:8082 \
+	--ip 172.18.0.3 \
 	--name=telegraf \
     --net=influxdb \
-    -v ${TELEGRAF.CONF_PATH}/telegraf.conf:/etc/telegraf/telegraf.conf:ro \
+    -v /home/lory271/telegraf.conf:/etc/telegraf/telegraf.conf:ro \
     telegraf
 ```
 	  
 ```	  
 docker run -d -p 8086:8086 --name=influxdb \
+	--ip 172.18.0.2 \
 	--net=influxdb \
 	influxdb
 ```
 
 ```
 docker run -d \
+	--ip 172.18.0.4 \
 	--name=traffic_cluster \
     --net=influxdb \
-    traffic_simulator
+    --rm detector_simulator -t traffic -s 10 -i 1
+```
+
+```
+docker run -d \
+	--ip 172.18.0.5 \
+	--name=weather_cluster \
+    --net=influxdb \
+    --rm detector_simulator -t weather -s 10 -i 2
+```
+
+```
+docker run -d \
+	--ip 172.18.0.6 \
+	--name=energy_cluster \
+    --net=influxdb \
+    --rm detector_simulator -t energy -s 10 -i 3
 ```
 
 
