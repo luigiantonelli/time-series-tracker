@@ -1,0 +1,18 @@
+timeRangeStart = 2023-05-22T00:00:00Z
+timeRangeStop = 2023-05-23T00:00:00Z
+city = "Capena"
+thres = 130
+
+data = from(bucket: "traffic")
+  |> range(start: timeRangeStart, stop: timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "traffic" and r["city"] == city and r["_field"] == "speed_max" and r["_value"] > thres)
+
+rushHour = data
+  |> drop(columns: ["host", "lat", "lng", "license_plate", "region", "timestamp"]) 
+  |> map(fn: (r) => ({r with _value: 1}))
+  |> aggregateWindow(every: 1h, fn: sum, createEmpty: false)
+  |> sort(columns: ["_value"], desc: true)
+//   |> limit(n: 1)
+  |> map(fn: (r) => ({r with _field: "count"}))
+
+rushHour
