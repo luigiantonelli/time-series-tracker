@@ -1,3 +1,5 @@
+// TRAFFIC
+
 timeRangeStart = 2023-05-22T00:00:00Z
 timeRangeStop = 2023-05-23T00:00:00Z
 city = "Capena"
@@ -16,3 +18,141 @@ rushHour = data
   |> map(fn: (r) => ({r with _field: "count"}))
 
 rushHour
+
+
+timeRangeStart = 2023-05-22T00:00:00Z
+timeRangeStop = 2023-05-23T00:00:00Z
+city = "Capena"
+thres = 130
+
+data = from(bucket: "traffic")
+  |> range(start: timeRangeStart, stop: timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "traffic" and r["_field"] == "speed_max" and r["_value"] > thres)
+
+countByHour = data
+  |> keep(columns: ["_measurement", "_field", "_value", "_time", "city"]) 
+  |> map(fn: (r) => ({r with _value: 1}))
+  |> aggregateWindow(every: 1h, fn: sum, createEmpty: false)
+  |> group(columns: ["_time", "city"])
+//   |> limit(n: 1)
+  |> map(fn: (r) => ({r with _field: "count"}))
+
+countByHour
+
+timeRangeStart = 2023-05-22T00:00:00Z
+timeRangeStop = 2023-05-23T00:00:00Z
+city = "Capena"
+thres = 130
+
+data = from(bucket: "traffic")
+  |> range(start: timeRangeStart, stop: timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "traffic" and r["_field"] == "speed_max" and r["_value"] > thres)
+
+totalRushHour = data
+  |> keep(columns: ["_measurement", "_field", "_value", "_time"]) 
+  |> map(fn: (r) => ({r with _value: 1}))
+  |> aggregateWindow(every: 1h, fn: sum, createEmpty: false)
+//   |> group(columns: ["_time"])
+  |> sort(columns: ["_value"], desc: true)
+//   |> limit(n: 1)
+  |> map(fn: (r) => ({r with _field: "count"}))
+
+totalRushHour
+
+// ENERGY
+
+timeRangeStart = 2023-05-22T00:00:00Z
+timeRangeStop = 2023-05-23T00:00:00Z
+name = "CENTRALE DI SCANDALE"
+perc = 0.7
+
+data = from(bucket: "energy")
+  |> range(start: timeRangeStart, stop: timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "energy" and r["_field"] == "current_load_max" and r["_value"] > perc * float(v: r["capacity"]))
+
+dangerousStations = data
+  |> keep(columns: ["_measurement", "_field", "_value", "_time", "name", "fuel_type"]) 
+  |> map(fn: (r) => ({r with _value: 1}))
+  |> aggregateWindow(every: 1h, fn: sum, createEmpty: false)
+  |> group(columns: ["time"]) //metti anche "name"
+  |> sort(columns: ["_value"], desc: true)
+//   |> limit(n: 1)
+  |> map(fn: (r) => ({r with _field: "warning"}))
+
+dangerousStations
+
+//WEATHER
+timeRangeStart = 2023-05-22T00:00:00Z
+timeRangeStop = 2023-05-23T00:00:00Z
+name = "CENTRALE DI SCANDALE"
+status = "Rain"
+
+data = from(bucket: "weather")
+  |> range(start: timeRangeStart, stop: timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "weather" and r["_field"] == "temp_diff_max")
+
+locationMaxDiff = data
+  |> keep(columns: ["_measurement", "_field", "_value", "_time", "location"]) 
+//   |> map(fn: (r) => ({r with _value: 1}))
+  |> aggregateWindow(every: 15m, fn: max, createEmpty: false)
+  |> group(columns: ["_time"]) //metti anche "name"
+  |> sort(columns: ["_value"], desc: true)
+  |> limit(n: 1)
+  |> map(fn: (r) => ({r with _field: "diff_mean"}))
+//   |> pivot(rowKey: ["_time"], columnKey: ["location"], valueColumn: "_value")
+
+locationMaxDiff
+
+
+
+import "influxdata/influxdb/monitor"
+import "influxdata/influxdb/v1"
+
+perc = 0.7
+
+// data =
+//     from(bucket: "energy")
+//         |> range(start: -1h)
+//         |> filter(fn: (r) => r["_measurement"] == "energy")
+//         |> filter(fn: (r) => r["_field"] == "current_load_min")
+//         |> aggregateWindow(every: 1h, fn: last, createEmpty: false)
+data =
+    from(bucket: "energy")
+        |> range(start: -1h)
+        |> filter(
+            fn: (r) =>
+                r["_measurement"] == "energy" and r["_field"] == "current_load_max" and r["_value"]
+                    >
+                    perc * float(v: r["capacity"]),
+        )
+        |> keep(
+            columns: [
+                "_measurement",
+                "_field",
+                "_value",
+                "_time",
+                "name",
+                "fuel_type",
+            ],
+        )
+        |> map(fn: (r) => ({r with _value: 1}))
+        |> aggregateWindow(every: 15m, fn: sum, createEmpty: false)
+        |> group(columns: ["time"])
+        //metti anche "name"
+        |> sort(columns: ["_value"], desc: true)
+        |> map(fn: (r) => ({r with _field: "warning"}))
+
+option task = {name: "Station Load Check", every: 1m, offset: 0s}
+
+check = {
+    _check_id: "0b3d0f5b71bcb000",
+    _check_name: "Station Load Check",
+    _type: "threshold",
+    tags: {},
+}
+warn = (r) => r["_value"] > 20
+messageFn = (r) =>
+    "${r.name} of type ${r.fuel_type} exceeded security constraint capacity (${r.warning} times)"
+// data |> v1["fieldsAsCols"]()
+
+data |> monitor["check"](data: check, messageFn: messageFn, warn: warn)
