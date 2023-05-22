@@ -29,6 +29,13 @@ cd ${ROOT_PATH_DEVICE_SIMULATOR}
 docker build --tag detector_simulator .
 ```
 
+Build the notification server docker image
+
+```
+cd ${ROOT_PATH_NOTIFICATION_SERVER}
+docker build --tag notification_server .
+```
+
 Run all!
 
 ```
@@ -46,6 +53,13 @@ docker run -d -p 8086:8086 --name=influxdb \
 	--ip 172.18.0.2 \
 	--net=influxdb \
 	influxdb
+```
+```
+docker run -d \
+	--ip 172.18.0.7 \
+	--name=notification_server \
+    --net=influxdb \
+    --rm notification_server
 ```
 
 ```
