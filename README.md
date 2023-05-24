@@ -92,3 +92,9 @@ docker run -d \
 1. `cp ${TELEGRAF.CONF_SOURCE_PATH} ${TELEGRAF.CONF_PATH}`
 
 2. Run all the containers from Docker Desktop
+
+3. execute `run_device.sh`
+
+# Slides
+
+https://docs.google.com/presentation/d/1vnn5tetHZTvpu_tdt6H-GustGaU1aAaP10g2sR9FOPs/edit#slide=id.g2495b4ad3f5_0_25
